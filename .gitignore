@@ -1,0 +1,9 @@
+.fvm/
+.dart_tool/
+.idea/
+build/
+pubspec.lock
+.fvmrc
+.vscode/
+.flutter-plugins
+.flutter-plugins-dependencies
