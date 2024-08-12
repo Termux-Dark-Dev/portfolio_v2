@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfoliov2/utils/fonts.dart';
 import 'package:portfoliov2/widgets/appbar.dart';
+import 'package:portfoliov2/widgets/drawer.dart';
 import 'package:portfoliov2/widgets/show_animated_text.dart';
 import 'dart:math' as math;
 
@@ -13,6 +14,11 @@ class ContactPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      endDrawer: size.width < 700
+          ? const CustomDrawer(
+              index: 4,
+            )
+          : null,
       appBar: TAppBar(
         preferredSize: Size(size.width, 100),
         screenName: "Contact",
@@ -29,16 +35,15 @@ class ContactPage extends StatelessWidget {
                 child: Text(
                   "contact",
                   style: GoogleFonts.getFont(FontNames.primaryFont,
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18)),
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: size.width * 0.02)),
                 ),
               )),
           Expanded(
-            child: Container(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [ContactScreen()],
-              ),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [ContactScreen()],
             ),
           )
         ],
@@ -61,7 +66,7 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.only(left: 80),
+      padding: EdgeInsets.only(left: size.width * 0.05),
       constraints: BoxConstraints(minHeight: size.height - 100),
       // color: Colors.amber,
       child: Column(
@@ -74,7 +79,9 @@ class _ContactScreenState extends State<ContactScreen> {
               "Get in touch.",
               style: GoogleFonts.getFont(FontNames.primaryFont,
                   textStyle: TextStyle(
-                      fontSize: size.width * 0.04,
+                      fontSize: size.width > 700
+                          ? size.width * 0.04
+                          : size.width * 0.06,
                       color: Colors.black,
                       fontWeight: FontWeight.w600)),
             ),
@@ -88,7 +95,9 @@ class _ContactScreenState extends State<ContactScreen> {
               "Hey there, Got a project,job offer ? Feel free to contact me ASAP.",
               style: GoogleFonts.getFont(FontNames.primaryFont,
                   textStyle: TextStyle(
-                      fontSize: size.width * 0.015,
+                      fontSize: size.width > 700
+                          ? size.width * 0.015
+                          : size.width * 0.04,
                       color: Colors.grey.shade500)),
             ),
           ),
@@ -218,6 +227,13 @@ class SubmitBtn extends StatefulWidget {
 }
 
 class _SubmitBtnState extends State<SubmitBtn> {
+  var snackBar = const SnackBar(
+    backgroundColor: Colors.red,
+    content: Text(
+      'Something went wrong. Please contact me manually at vishalmspandey@gmail.com',
+      style: TextStyle(color: Colors.white),
+    ),
+  );
   bool _isError = false;
   @override
   Widget build(BuildContext context) {
@@ -225,9 +241,14 @@ class _SubmitBtnState extends State<SubmitBtn> {
     return GestureDetector(
       onTap: () {
         if (widget.formkey.currentState!.validate()) {
-          setState(() {
-            _isError = !_isError;
-          });
+          if (size.width > 700) {
+            setState(() {
+              _isError = !_isError;
+            });
+            return;
+          }
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       child: AnimatedContainer(
@@ -248,7 +269,8 @@ class _SubmitBtnState extends State<SubmitBtn> {
                   ? "Something went wrong. Please contact me manually at vishalmspandey@gmail.com"
                   : "Send Message",
               style: TextStyle(
-                fontSize: size.width * 0.01,
+                fontSize:
+                    size.width > 700 ? size.width * 0.01 : size.width * 0.02,
                 color: _isError ? Colors.white : Colors.black,
               ),
               maxLines: 2,

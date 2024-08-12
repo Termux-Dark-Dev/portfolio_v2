@@ -45,6 +45,7 @@ class _CustomBtnState extends State<CustomBtn> {
       height: size.height + 20,
       width: size.width + 50,
       child: MouseRegion(
+        cursor: SystemMouseCursors.click,
         onHover: (event) {
           setState(() {
             _width = 200;

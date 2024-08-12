@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:portfoliov2/pages/about.dart';
 import 'package:portfoliov2/pages/contact.dart';
-import 'package:portfoliov2/pages/home/home.dart';
+import 'package:portfoliov2/pages/home.dart';
 import 'package:portfoliov2/pages/projects.dart';
 import 'package:portfoliov2/pages/splashscreen.dart';
 import 'package:portfoliov2/utils/router/route_constants.dart';

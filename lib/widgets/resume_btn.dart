@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfoliov2/utils/fonts.dart';
+import 'dart:html' as html;
 
 class ResumeBtn extends StatefulWidget {
   final String text;
@@ -29,43 +30,49 @@ class _ResumeBtnState extends State<ResumeBtn> {
   @override
   Widget build(BuildContext context) {
     Size size = _getTextSize();
-    return MouseRegion(
-      onExit: (event) {
-        setState(() {
-          _width = 0;
-          textCol = Colors.black;
-        });
+    return GestureDetector(
+      onTap: () {
+        html.window.open("https://drive.google.com/file/d/1OUTK3N8KPWSvoYwEHdL_uEdYZE0K8CB0", 'new tab');
       },
-      onHover: (event) {
-        setState(() {
-          _width = size.width + 30;
-          textCol = Colors.white;
-        });
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 1),
-            borderRadius: BorderRadius.circular(4)),
-        height: size.height + 20,
-        width: size.width + 30,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 400),
-                  width: _width,
-                  height: size.height + 20,
-                  color: Colors.black,
-                )),
-            Text(
-              widget.text,
-              style: TextStyle(
-                color: textCol,
-              ),
-            )
-          ],
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onExit: (event) {
+          setState(() {
+            _width = 0;
+            textCol = Colors.black;
+          });
+        },
+        onHover: (event) {
+          setState(() {
+            _width = size.width + 30;
+            textCol = Colors.white;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 1),
+              borderRadius: BorderRadius.circular(4)),
+          height: size.height + 20,
+          width: size.width + 30,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 400),
+                    width: _width,
+                    height: size.height + 20,
+                    color: Colors.black,
+                  )),
+              Text(
+                widget.text,
+                style: TextStyle(
+                  color: textCol,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

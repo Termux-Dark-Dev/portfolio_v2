@@ -1,14 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:portfoliov2/utils/colors.dart';
 import 'package:portfoliov2/utils/fonts.dart';
 import 'package:portfoliov2/utils/helpers/sizehelper.dart';
+import 'package:portfoliov2/utils/router/route_constants.dart';
 import 'package:portfoliov2/widgets/appbar.dart';
 import 'package:portfoliov2/widgets/custom_btn.dart';
+import 'package:portfoliov2/widgets/drawer.dart';
 import 'package:portfoliov2/widgets/show_animated_text.dart';
 import 'package:portfoliov2/widgets/underline_animated_text.dart';
+import 'dart:html' as html;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,7 +21,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = SizeHelper.getSize(context);
     return Scaffold(
-      drawer: size.width < 700 ? const Drawer() : null,
+      endDrawer: size.width < 700
+          ? const CustomDrawer(
+              index: 1,
+            )
+          : null,
       appBar: TAppBar(
         preferredSize: Size(size.width, 100),
         screenName: "Home",
@@ -149,15 +157,24 @@ class HomePageFg extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "Github",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.018,
-                                  color: Colors.grey)),
-                        )),
+                    GestureDetector(
+                      onTap: () {
+                        html.window.open(
+                            "https://github.com/Termux-Dark-Dev", 'new tab');
+                      },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: ShowAnimatedText(
+                            underline: true,
+                            child: Text(
+                              "Github",
+                              style: GoogleFonts.getFont(FontNames.primaryFont,
+                                  textStyle: TextStyle(
+                                      fontSize: size.width * 0.018,
+                                      color: Colors.grey)),
+                            )),
+                      ),
+                    ),
                     Text(
                       "/  ",
                       style: TextStyle(
@@ -165,31 +182,49 @@ class HomePageFg extends StatelessWidget {
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "LinkedIn",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.018,
-                                  color: Colors.grey)),
-                        )),
-                    Text(
-                      "/  ",
-                      style: TextStyle(
-                          fontSize: size.width * 0.018,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        html.window.open(
+                            "https://www.linkedin.com/in/vishal-pandey-b86965228",
+                            'new tab');
+                      },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: ShowAnimatedText(
+                            underline: true,
+                            child: Text(
+                              "LinkedIn",
+                              style: GoogleFonts.getFont(FontNames.primaryFont,
+                                  textStyle: TextStyle(
+                                      fontSize: size.width * 0.018,
+                                      color: Colors.grey)),
+                            )),
+                      ),
                     ),
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "Twitter",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.018,
-                                  color: Colors.grey)),
-                        ))
+                    // Text(
+                    //   "/  ",
+                    //   style: TextStyle(
+                    //       fontSize: size.width * 0.018,
+                    //       color: Colors.grey,
+                    //       fontWeight: FontWeight.bold),
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     html.window.open("https://github.com/Termux-Dark-Dev", 'new tab');
+                    //   },
+                    //   child: MouseRegion(
+                    //     cursor: SystemMouseCursors.click,
+                    //     child: ShowAnimatedText(
+                    //         underline: true,
+                    //         child: Text(
+                    //           "email",
+                    //           style: GoogleFonts.getFont(FontNames.primaryFont,
+                    //               textStyle: TextStyle(
+                    //                   fontSize: size.width * 0.018,
+                    //                   color: Colors.grey)),
+                    //         )),
+                    //   ),
+                    // )
                   ],
                 )
               ],
@@ -277,22 +312,17 @@ class HomePageFgMobile extends StatelessWidget {
                 FadeInUp(
                     from: 40,
                     delay: const Duration(milliseconds: 900),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         UnderlineAnimatedText(
-                            child: Text("Mobile Engineer",
+                            child: Text("Mobile Engineer /",
                                 style: GoogleFonts.getFont(
                                     FontNames.primaryFont,
                                     textStyle: TextStyle(
                                         fontSize: size.width * 0.03,
                                         color: Colors.grey)))),
-                        Text(" / ",
-                            style: GoogleFonts.getFont(FontNames.primaryFont,
-                                textStyle: TextStyle(
-                                    fontSize: size.width * 0.03,
-                                    color: Colors.grey))),
                         UnderlineAnimatedText(
                             child: Text("Full Stack Developer",
                                 style: GoogleFonts.getFont(
@@ -312,7 +342,9 @@ class HomePageFgMobile extends StatelessWidget {
                         backgroundColor: Colors.grey.shade300,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12))),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed(RouteConstants.projects);
+                    },
                     child: Text(
                       "See my projects",
                       style: GoogleFonts.getFont(FontNames.primaryFont,
@@ -323,15 +355,21 @@ class HomePageFgMobile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "Github",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.038,
-                                  color: Colors.grey)),
-                        )),
+                    GestureDetector(
+                      onTap: () {
+                        html.window.open(
+                            "https://github.com/Termux-Dark-Dev", 'new tab');
+                      },
+                      child: ShowAnimatedText(
+                          underline: true,
+                          child: Text(
+                            "Github",
+                            style: GoogleFonts.getFont(FontNames.primaryFont,
+                                textStyle: TextStyle(
+                                    fontSize: size.width * 0.038,
+                                    color: Colors.grey)),
+                          )),
+                    ),
                     Text(
                       "/  ",
                       style: TextStyle(
@@ -339,31 +377,38 @@ class HomePageFgMobile extends StatelessWidget {
                           color: Colors.grey,
                           fontWeight: FontWeight.bold),
                     ),
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "LinkedIn",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.038,
-                                  color: Colors.grey)),
-                        )),
-                    Text(
-                      "/  ",
-                      style: TextStyle(
-                          fontSize: size.width * 0.038,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        html.window.open(
+                            "https://www.linkedin.com/in/vishal-pandey-b86965228",
+                            'new tab');
+                      },
+                      child: ShowAnimatedText(
+                          underline: true,
+                          child: Text(
+                            "LinkedIn",
+                            style: GoogleFonts.getFont(FontNames.primaryFont,
+                                textStyle: TextStyle(
+                                    fontSize: size.width * 0.038,
+                                    color: Colors.grey)),
+                          )),
                     ),
-                    ShowAnimatedText(
-                        underline: true,
-                        child: Text(
-                          "Twitter",
-                          style: GoogleFonts.getFont(FontNames.primaryFont,
-                              textStyle: TextStyle(
-                                  fontSize: size.width * 0.038,
-                                  color: Colors.grey)),
-                        ))
+                    // Text(
+                    //   "/  ",
+                    //   style: TextStyle(
+                    //       fontSize: size.width * 0.038,
+                    //       color: Colors.grey,
+                    //       fontWeight: FontWeight.bold),
+                    // ),
+                    // ShowAnimatedText(
+                    //     underline: true,
+                    //     child: Text(
+                    //       "Twitter",
+                    //       style: GoogleFonts.getFont(FontNames.primaryFont,
+                    //           textStyle: TextStyle(
+                    //               fontSize: size.width * 0.038,
+                    //               color: Colors.grey)),
+                    //     ))
                   ],
                 )
               ],
